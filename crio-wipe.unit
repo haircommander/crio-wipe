@@ -1,0 +1,7 @@
+[Unit]
+Description=CRI-O Auto Update Script
+Before=crio.service
+RequiresMountsFor=/var/lib/containers
+
+[Service]
+ExecStart=<PATH>
