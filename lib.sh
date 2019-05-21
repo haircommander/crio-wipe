@@ -33,3 +33,34 @@ check_versions_wipe_if_necessary() {
     fi
 }
 
+main() {
+    NEW_MAJOR_VERSION=$(get_major $NEW_VERSION)
+    if [[ -z "$NEW_MAJOR_VERSION" ]]; then
+        echo "New major version not set"
+        exit 1
+    fi
+    NEW_MINOR_VERSION=$(get_minor $NEW_VERSION)
+    if [[ -z "$NEW_MINOR_VERSION" ]]; then
+        echo "New minor version not set"
+        exit 1
+    fi
+
+    if test -f $VERSION_FILE_LOCATION; then
+        OLD_VERSION=$(cat $VERSION_FILE_LOCATION)
+        OLD_MAJOR_VERSION=$(get_major $OLD_VERSION)
+        MAJOR_CHECK=$(check_versions_wipe_if_necessary $NEW_MAJOR_VERSION $OLD_MAJOR_VERSION)
+        if [[ ! -z "$MAJOR_CHECK" ]]; then
+            echo "major $MAJOR_CHECK"
+            exit 1
+        fi
+        OLD_MINOR_VERSION=$(get_minor $OLD_VERSION)
+        MINOR_CHECK=$(check_versions_wipe_if_necessary $NEW_MINOR_VERSION $OLD_MINOR_VERSION)
+        if [[ ! -z "$MINOR_CHECK" ]]; then
+            echo "minor $MINOR_CHECK"
+            exit 1
+        fi
+    else
+        echo "old version not found"
+        perform_wipe
+    fi
+}
