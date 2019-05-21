@@ -1,6 +1,7 @@
 #!/bin/sh
-source $(dirname $0)/lib.sh
-source $(dirname $0)/config.sh
+dir=${0%/*}
+source "$dir/lib.sh"
+source "$dir/config.sh"
 
 success=$(main)
 if [[ ! -z "$success" ]]; then

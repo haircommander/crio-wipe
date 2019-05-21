@@ -1,5 +1,5 @@
 #!/bin/sh
-dir=$(dirname $0)
+dir=${0%/*}
 source $dir/lib.sh
 
 cleanup() {
