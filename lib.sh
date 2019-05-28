@@ -10,7 +10,9 @@ get_minor() {
 
 perform_wipe() {
     echo "I am wiping storage!"
-    # rm -rf /var/lib/containers
+    if [ $WIPE -eq 0 ]; then
+        rm -rf $CONTAINERS_STORAGE_DIR
+    fi
     exit 1
 }
 

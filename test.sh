@@ -14,6 +14,7 @@ set_version_file() {
 
 VERSION_FILE_LOCATION="$dir"/version.tmp
 CONTAINERS_STORAGE_DIR=""
+WIPE=1
 NEW_VERSION="crio version 1.1.1"
 
 # expect to upgrade with no version file
