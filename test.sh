@@ -3,7 +3,10 @@ dir=${0%/*}
 source $dir/lib.sh
 
 cleanup() {
-    rm $VERSION_FILE_LOCATION
+    rm -f $VERSION_FILE_LOCATION
+    if [[ ! -z "$TMP_STORAGE" ]]; then
+        rm -rf "$TMP_STORAGE"
+    fi
 }
 set_version_file() {
     echo "$1" > $VERSION_FILE_LOCATION
@@ -23,7 +26,7 @@ fi
 touch $VERSION_FILE_LOCATION
 trap cleanup EXIT
 
-set_version_file "1.13.1"
+set_version_file "\"1.13.1\""
 
 # expect to not upgrade
 NEW_VERSION="crio version 1.13.1"
@@ -52,6 +55,7 @@ if [[ -z "$should_not_be_empty" ]]; then
 fi
 
 TMP_STORAGE="$dir/tmp"
+rm -rf "$TMP_STORAGE"
 mkdir "$TMP_STORAGE"
 CONTAINERS_STORAGE_DIR="$TMP_STORAGE"
 NEW_VERSION="crio storage bad format"
@@ -86,10 +90,11 @@ if [[ -z "$should_not_be_empty" ]]; then
 fi
 
 # expect to upgrade with faulty minor version in version file
-set_version_file "1.x.14"
+set_version_file "\"1.x.14\""
 should_not_be_empty=$(main)
 if [[ -z "$should_not_be_empty" ]]; then
     echo "Failed to upgrade major release"
     exit 1
 fi
 
+exit 0

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 get_major() {
-    echo $@ | grep -Po '^(crio version )?\K\d(?=\.\d+\..*)'
+    echo $@ | grep -Po '^(\"|crio version )?\K\d(?=\.\d+\..*)'
 }
 
 get_minor() {
-    echo $@ | grep -Po '^(crio version )?\d\.\K\d+(?=\..*)'
+    echo $@ | grep -Po '^(\"|crio version )?\d\.\K\d+(?=\..*)'
 }
 
 perform_wipe() {
